@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="prefetch stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"/>
+
+    <link rel="stylesheet prefetch" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700"/>
+    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="04_todo-style.css"/>
+</head>
+
+<body>
+<p>Simple todo-"app". Try hover todo items.</p>
+
+<div class="container">
+    <div class="add" id="add" onclick="newTask()">Add new</div>
+    <div class="title">
+        <h1>Things to do</h1>
+    </div>
+
+    <div class="new-task" id="new_task">
+        <a class="add-new" href="#" id="add_task" onclick="createNewTask()">
+            <i class="fa fa-plus"></i>
+        </a>
+        <input id="todo_text" placeholder="New task">
+    </div>
+
+    <ul class="todo-ul">
+        <li class="row">
+            <a class="remove" href="#">
+                <i class="fa fa-trash-o"></i>
+            </a>
+            <a class="completed" href="#">
+                <i class="fa fa-check"></i>
+            </a>
+            Go to the bank
+        </li>
+        <li class="row">
+            <a class="remove" href="#">
+                <i class="fa fa-trash-o"></i>
+            </a>
+            <a class="completed" href="#">
+                <i class="fa fa-check"></i>
+            </a>
+            Buy food
+        </li>
+        <li class="row">
+            <a class="remove" href="#">
+                <i class="fa fa-trash-o"></i>
+            </a>
+            <a class="completed" href="#">
+                <i class="fa fa-check"></i>
+            </a>
+            Clean the house
+        </li>
+        <li class="row">
+            <a class="remove" href="#">
+                <i class="fa fa-trash-o"></i>
+            </a>
+            <a class="completed" href="#">
+                <i class="fa fa-check"></i>
+            </a>
+            Make dinner
+        </li>
+        <li class="row">
+            <a class="remove" href="#">
+                <i class="fa fa-trash-o"></i>
+            </a>
+            <a class="completed" href="#">
+                <i class="fa fa-check"></i>
+            </a>
+            Pick up the kids
+        </li>
+    </ul>
+</div>
+
+
+<script>
+    startinginitializeOfOnClickFunctionsForRemoveAndCompleted();
+    var newTaskForm = document.querySelector(".new-task");
+    var newTaskText = document.querySelector("#todo_text");
+    var ulTasks = document.querySelector(".todo-ul");
+    var sheetLi = ulTasks.children[0].cloneNode(true);
+
+    //    var tasks = [ {text:"Go to the bank", made:false},
+    //                  {text:"Buy food", made:false},
+    //                  {text:"Clean the house", made:false},
+    //                  {text:"Make dinner", made:false},
+    //                  {text:"Pick up the kids", made:false}
+    //                 ];
+
+    function startinginitializeOfOnClickFunctionsForRemoveAndCompleted() {
+        let allTasks = document.querySelectorAll(".row");
+        for (let i = 0; i < allTasks.length; i++) {
+            initializeOfOnClickFunctionsForRemoveAndCompleted(allTasks[i]);
+        }
+    }
+
+    function initializeOfOnClickFunctionsForRemoveAndCompleted(liElement) {
+
+
+        (liElement.children[0]).onclick = function () {  //remove
+            liElement.parentNode.removeChild(liElement);
+        };
+
+        (liElement.children[1]).onclick = function () {  //completed
+            liElement.removeChild(liElement.children[0]);
+            liElement.removeChild(liElement.children[0]);
+            liElement.style.backgroundColor = "#2ecc71";
+        };
+    }
+
+    function createNewLi(text) {
+        let newLi = document.createElement("li");
+        newLi.classList.add("row");
+
+        let removeA = document.createElement("a");
+        removeA.classList.add("remove");
+        let removeI = document.createElement("i");
+        removeI.classList.add("fa");
+        removeI.classList.add("fa-trash-o");
+        removeA.appendChild(removeI);
+
+
+        let completedA = document.createElement("a");
+        completedA.classList.add("completed");
+        let completedI = document.createElement("i");
+        completedI.classList.add("fa");
+        completedI.classList.add("fa-check");
+        completedA.appendChild(completedI);
+
+        let taskText = document.createTextNode(text);
+
+        newLi.appendChild(removeA);
+        newLi.appendChild(completedA);
+        newLi.appendChild(taskText);
+
+        return newLi;
+    }
+
+    function newTask() {
+        newTaskForm.style.display = "block";
+    }
+
+    function createNewTask() {
+        if (ulTasks === undefined)
+            ulTasks.appendChild(createNewLi(newTaskText.value));
+        else
+            ulTasks.insertBefore(createNewLi(newTaskText.value), ulTasks.firstChild);
+        initializeOfOnClickFunctionsForRemoveAndCompleted(ulTasks.firstChild);
+        newTaskText.value = "";
+        newTaskForm.style.display = "none";
+    }
+
+</script>
+</body>
+</html>
